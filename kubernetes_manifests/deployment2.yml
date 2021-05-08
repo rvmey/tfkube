@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcmd-deployment2
+  labels:
+    app: tcmd2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcmd2
+  template:
+    metadata:
+      labels:
+        app: tcmd2
+    spec:
+      serviceAccountName: triggercmd
+      containers:
+      - name: tcmd2
+        image: amazon/aws-cli
+        command: ["tail"]
+        args: ["-f", "/dev/null"]
+        env:
+          - name: TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tcmd-secret
+                key: token
+          - name: COMPUTERID
+            valueFrom:
+              secretKeyRef:
+                name: tcmd-secret
+                key: computerid
+          - name: COMMANDS
+            valueFrom:
+              configMapKeyRef:
+                # The ConfigMap containing the value you want to assign to COMMANDS
+                name: commands-config
+                # Specify the key associated with the value
+                key: commands
