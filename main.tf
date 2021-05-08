@@ -4,6 +4,7 @@ locals {
         "Terraform"     = "true"
         "Stage"         = terraform.workspace
     }
+    cluster_name = var.cluster_name == "" ? "eks-spot-${random_string.suffix.result}" : var.cluster_name
 }
 
 
@@ -22,10 +23,6 @@ provider "kubernetes" {
 }
 
 data "aws_availability_zones" "available" {
-}
-
-locals {
-  cluster_name = var.cluster_name
 }
 
 resource "random_string" "suffix" {
