@@ -1,4 +1,4 @@
-variable "cluster_name" {
+variable cluster_name {
   type      = string
-  default   = ""
+  default   = "k8s-demo"
 }

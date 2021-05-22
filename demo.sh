@@ -1,3 +1,7 @@
+terraform apply -auto-approve
+
+export KUBECONFIG=$(terraform output -json | jq -r .kubeconfig_filename.value)
+
 # Get your TRIGGERcmd token
 export TOKEN=$(cat ~/.TRIGGERcmdData/token.tkn)
 
